@@ -1,7 +1,14 @@
+// eslint-disable-next-line
 .message {
-  font-size: 20;
-  h2 {
-  font-size: 20;
-  color: green;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 20px;
+  color: rgb(70, 130, 130);
+  margin-left: 10%;
+
+  &__title {
+    color: green;
+    margin-right: 10px;
   }
 }

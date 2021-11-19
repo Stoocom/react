@@ -1,10 +1,11 @@
 import React from 'react';
 import './Message.scss';
 
-function Message({ text }) {
+function Message({ author, text }) {
   return (
     <div className="message">
-      <h2>{text}</h2>
+      <div className="message__title">{author}:</div>
+      <span>{text}</span>  
     </div>
   );
 }
