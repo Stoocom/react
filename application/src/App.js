@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.scss';
-import { AppBar, TextField, Button, Box, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { TextField, Button, Box } from '@material-ui/core';
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import Message from'./components/Message';
 import { makeStyles } from '@material-ui/core/styles';
@@ -42,7 +42,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'start',
     flexDirection: 'column',
-    height: '100%'
+    height: '100vh'
   }
 });
 
@@ -51,8 +51,12 @@ const lists = [
   {id: "sdfdccvvffd", title: 'CuteGirl'},
   {id: "sdcxcxfdffd", title: 'Trash'},
   {id: "sdsaaafdffd", title: 'Spam'}
-]
- 
+];
+
+const Image = ({ children }) => {
+  return <div>{children("imageWrapper")}</div>;
+ };
+
 function App() {
   const classes = useStyles();
   const [name, setName] = useState("");
@@ -75,23 +79,13 @@ function App() {
 
   return (
     <div className={classes.main}>
-      <Box sx={{ flexGrow: 1, mb: 2 }}>
-      <AppBar position="static">
-      <Toolbar>
-          <IconButton
-            size="medium"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 5 }}
-          >
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Together
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      </Box>
+      <Image>
+        {(className) => (
+          <div className={className}>
+            <img src="none" alt="none" />
+          </div>
+        )}
+      </Image>
       <Box className={classes.inputBlock}>
         <form className={classes.formStyle} noValidate autoComplete="off" onSubmit={handleChange}>
           <TextField inputRef={inputRef} id="standard-basic" label="Имя" value={name} onChange={(e) => {setName(e.target.value)}}/>
