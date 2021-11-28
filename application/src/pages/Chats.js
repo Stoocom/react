@@ -1,5 +1,4 @@
 import React, { useState }from 'react';
-import './Chats.scss';
 import ChatList from'../components/ChatList';
 import { Container, Box, Typography } from '@material-ui/core';
 import { useParams } from "react-router-dom";
@@ -21,7 +20,6 @@ export default function Chats() {
   const { chatsId } = useParams();
   const [ activeChatsId, setChatsId] = useState("");
   const [chats, setChats] = useState(initialChats);
-  //const [activeMessages, setMessages] = useState(initialChats[chatsId].messages);
 
   if (chatsId !== activeChatsId) {
     setChatsId(chatsId);
