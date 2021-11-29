@@ -7,7 +7,7 @@ function Header() {
   return (
       <AppBar position="static" style={{ background: '#d57276' }} >
         <Toolbar style={{ minHeight: 40, background: '#d57276', margin: "auto",
-                          maxWidth: 800, width: "100%" }}>
+                          maxWidth: 800, width: "100%", padding: 0 }}>
           <Box sx={{ width: '30%', display: 'flex', justifyContent: 'start' }}>
             Logo
           </Box >

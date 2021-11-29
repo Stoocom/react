@@ -1,6 +1,7 @@
+
 let initialState = {
-  isShowName: false,
-  name: "Alexander"
+  isShowName: true,
+  name: "Default"
 }
 
 export default function reducer(state = initialState, action) {
@@ -10,6 +11,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         isShowName: !state.isShowName,
     }
+    case 'PROFILE::CHANGE_NAME': 
+      return {
+        ...state,
+        name: action.payload
+      }
     default:
       return state
   }

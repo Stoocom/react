@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Container, Box, Typography, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { useDispatch } from "react-redux";
-//import { toggleShowName }  from "../store/actions";
+//import { connect } from 'react-redux';
+import { useSelector } from "react-redux";
+import { showNameAction, changeName }  from "../store/actions";
+import store from "../store";
 
-function Profile(props) {
-  console.log(props);
-  const dispatch = useDispatch();
+function Profile() {
+  const { isShowName, name } = useSelector((state) => state);
+  const [value, setValue] = useState('');
+
   const handleChange = () => {
-    dispatch({ type: 'TOGGLE_SHOW' });
+    store.dispatch(showNameAction);
   };
+
+  const inputChangeValue = useCallback((e) => {
+    setValue(e.target.value);
+  }, []);
+
+  const setName = useCallback(() => {
+    store.dispatch(changeName(value));
+  }, [value]);
 
   return (
     <Container style={{ margin: "0 auto", maxWidth: 800, padding: 0 }}>
@@ -19,25 +29,24 @@ function Profile(props) {
             backgroundColor: '#f0eeef',
             marginTop: '20px',
             borderRadius: '5px',
-            padding: "20px"
-          }}>
-          Profile information
+            }}>
+          <Box style={{ padding: "10px" }}>Profile information</Box>
       </Box>
       <Box sx={{
             width: "100%",
             backgroundColor: '#f0eeef',
-            marginTop: '20px',
             display: 'flex',
             justifyContent: 'space-between',
             height: '100%',
-            borderRadius: '5px',
-            padding: "20px",
+            borderRadius: 5,
             color: 'rgb(213, 114, 118)'
           }}>
         <Box sx={{
+            padding: "10px",
             width: "50%",
             backgroundColor: '#f0eeef',
             display: 'flex',
+            flexDirection: 'row',
             justifyContent: 'space-between',
             height: '100%',
             borderRadius: '5px',
@@ -46,11 +55,10 @@ function Profile(props) {
           <Box sx={{
             width: "40%",
             color: 'white',
-            marginTop: '10px',
             display: 'flex',
             justifyContent: 'center',
             height: '100%',
-            borderRadius: '5px',
+            borderRadius: 5,
             padding: "10px",
             backgroundColor: 'rgb(213, 114, 118)'
           }}>
@@ -58,7 +66,6 @@ function Profile(props) {
           </Box>
           <Box sx={{
             width: "40%",
-            marginTop: '10px',
             display: 'flex',
             justifyContent: 'center',
             height: '100%',
@@ -66,26 +73,44 @@ function Profile(props) {
             padding: "10px",
             color: 'rgb(213, 114, 118)'
           }}>
-          { props.isShow.isShowName ? props.isShow.name : "-"}
+          { isShowName ? name : "-"}
           </Box>
       </Box>
       <Box sx={{
-            width: "30%",
+            width: "40%",
             backgroundColor: 'white',
             display: 'flex',
             justifyContent: 'center',
-            borderRadius: '5px',
+            wrap: 'center',
+            borderRadius: '0px',
             padding: "10px",
             color: 'rgb(213, 114, 118)'
           }}>
-            <FormGroup style={{ flexDirection: 'row'}}>
-              <FormControlLabel control={<Checkbox checked={props.isShow.isShowName} onChange={handleChange} />} label="Show name" />
+            <FormGroup style={{ flexDirection: 'row',  width: "50%", marginLeft: '20px',}}>
+              <FormControlLabel control={<Checkbox checked={isShowName} onChange={handleChange} />} label="Show name" />
             </FormGroup>
           </Box>
+
+
+
         </Box>
+        <Box component={'h2'} sx={{
+            width: "100%", backgroundColor: '#f0eeef', marginTop: '20px',
+            borderRadius: '5px',
+            display: 'flex', justifyContent: 'start', flexDirection: 'row'
+          }}>
+          <div style= {{ width: "20%" }}>
+              <input type="text"onChange={inputChangeValue} />
+            </div>
+            <div style= {{ width: "20%" }}s>
+              <button onClick={setName}>Change Name</button>
+            </div>
+      </Box>
+
+
     </Typography>
-    </Container>
+  </Container>
   );
 }
 
-export default connect(state => ({isShow: state}))(Profile)
+export default Profile
