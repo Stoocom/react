@@ -2,8 +2,10 @@ import React from 'react';
 import { AppBar, Box, Toolbar } from '@material-ui/core';
 import { Typography, ListItem } from '@material-ui/core';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
+  const { nameUser } = useSelector((state) => state.profile);
   return (
       <AppBar position="static" style={{ background: '#d57276' }} >
         <Toolbar style={{ minHeight: 40, background: '#d57276', margin: "auto",
@@ -19,8 +21,7 @@ function Header() {
           </Typography>
           </Box>
           <Box sx={{ width: '30%', display: 'flex', justifyContent: 'end' }}>
-        
-            icon
+            { nameUser === "Default" ? "icon" : nameUser }
           </Box >
         </Toolbar>
       </AppBar>

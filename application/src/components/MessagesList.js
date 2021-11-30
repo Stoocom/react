@@ -2,9 +2,13 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 import Message from'./Message';
 import InputMessageBlock from'./InputMessageBlock';
+import { useSelector, shallowEqual } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getDialogs } from "../store/chatsSelectors";
 
-function MessagesList({ messages, chatsId, setChats }) {
-  let messagesActive = messages[chatsId].messages;
+function MessagesList() {
+  const dialogs = useSelector(getDialogs, shallowEqual);
+  const { chatsId } = useParams();
   return (
     <Box style={{ 
       marginLeft: '20px',
@@ -14,15 +18,17 @@ function MessagesList({ messages, chatsId, setChats }) {
       flexDirection: 'column',
       height: '100%' }}
     >
-      <h2>Сообщения</h2>
-        { messagesActive.map( ({ text, author }, index) =>
+      <h2>Messages</h2>
+      { dialogs.messages[chatsId] ? dialogs.messages[chatsId].map( ({ id, text, author }) =>
           <Message
-            key={index}
+            key={id}
             author={author} 
             text={text}
           />
-      )}
-      <InputMessageBlock chatsId={chatsId} chats={messages} setChats={setChats}/>
+        )
+        : <div>Empty chat</div>
+      }
+      <InputMessageBlock />
     </Box>
   );
 }
