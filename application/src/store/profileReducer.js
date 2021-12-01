@@ -1,20 +1,20 @@
 
 let initialState = {
-  isShowName: true,
-  name: "Default"
+    isShowName: true,
+    nameUser: "Alexander"
 }
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case 'TOGGLE_SHOW':
+    case 'PROFILE::TOGGLE_SHOW':
       return {
         ...state,
-        isShowName: !state.isShowName,
+        isShowName: !state.isShowName
     }
     case 'PROFILE::CHANGE_NAME': 
       return {
         ...state,
-        name: action.payload
+        nameUser: action.payload
       }
     default:
       return state

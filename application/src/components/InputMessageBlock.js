@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { TextField, Button, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { addMessage }  from "../store/actions";
+import store from "../store";
 
 const useStyles = makeStyles({
   inputBlock: {
@@ -18,37 +22,40 @@ const useStyles = makeStyles({
   }
 });
 
-
-function InputMessageBlock({ chatsId, chats, setChats }) {
+function InputMessageBlock() {
+  const { nameUser } = useSelector((state) => state.profile);
+  const { chatsId } = useParams();
   const classes = useStyles();
-  let activeChats = {};
-  Object.assign(activeChats, chats);
-  let messagesActive = activeChats[chatsId].messages;
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
+
+  const [author, setAuthor] = useState("");
+  const [text, setMessage] = useState("");
   const inputRef = useRef(null);
 
-  const handleChange = (event) => {
-    messagesActive.push({ text: name, author: message });
-    activeChats[chatsId].messages = messagesActive;
-    setChats(activeChats);
-    setName("");
+  const handleChange = (e) => {
+    console.log(author, text);
+    if (nameUser !== "Default") {
+      store.dispatch(addMessage(chatsId, text, nameUser));
+    } else {
+      store.dispatch(addMessage(chatsId, text, author));
+    }
+    setAuthor("");
     setMessage("");
     inputRef.current.focus();
-    event.preventDefault();
+    e.preventDefault();
   }
 
   useEffect(() => {
-    console.log(inputRef.current);
     inputRef.current.focus();
   }, []);
 
   return (
     <Box className={classes.inputBlock}>
         <form className={classes.formStyle} noValidate autoComplete="off" onSubmit={handleChange}>
-          <TextField inputRef={inputRef} id="standard-basic" label="author" value={name} onChange={(e) => {
-            console.log(e.target.value); setName(e.target.value)}}/>
-          <TextField id="standard-basic" label="text" value={message} onChange={(e) => setMessage(e.target.value)}/>
+          { (nameUser !== "Default")
+              ? <div></div>
+              : <TextField id="standard-basic" label="author" value={author} onChange={(e) => { setAuthor(e.target.value) }} />
+            }
+          <TextField inputRef={inputRef} id="standard-basic" label="text" value={text} onChange={(e) => setMessage(e.target.value)}/>
           <Button size="medium" style={{width: '120px'}} variant="contained" type="submit">Send</Button>
         </form>
     </Box>

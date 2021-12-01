@@ -1,29 +1,11 @@
-import React, { useState }from 'react';
+import React from 'react';
 import ChatList from'../components/ChatList';
 import { Container, Box, Typography } from '@material-ui/core';
 import { useParams } from "react-router-dom";
 import MessagesList from'../components/MessagesList';
 
-const initialChats = {
-  id1: {
-    name: "Chat1",
-    messages: [{ text: "FirstMessage", author: "Bob" }],
-  },
-  id2: {
-    name: "Chat2",
-    messages: [{ text: "FirstMessageHereToo!", author: "Angel" }],
-  },
- };
-
 export default function Chats() {
-
   const { chatsId } = useParams();
-  const [ activeChatsId, setChatsId] = useState("");
-  const [chats, setChats] = useState(initialChats);
-
-  if (chatsId !== activeChatsId) {
-    setChatsId(chatsId);
-  }
 
   return (
     <Container style={{ margin: "0 auto", maxWidth: 800, padding: 0 }}>
@@ -35,10 +17,11 @@ export default function Chats() {
             display: 'flex',
             justifyContent: 'start',
             flexDirection: 'column',
-            height: '30vh',
+            height: '110%',
             borderRadius: '5px'
           }}>
-          <ChatList chats={chats} chatsId={activeChatsId}/>
+          <h2 style={{ marginLeft: "10%"}}>Chats</h2>
+          <ChatList />
       </Box>
       <Box sx={{
             width: "64.5%",
@@ -52,8 +35,8 @@ export default function Chats() {
             ml: '2.5%'
           }}>
           { chatsId
-            ? <MessagesList messages={chats} chatsId={activeChatsId} setChats={setChats}/>
-            : <Box>Выберите чат в колонке слева</Box>
+            ? <MessagesList/>
+            : <Box style={{ padding: 30, fontSize: 20, textAlign: "center" }}>Please, choose chats on the left</Box>
           }
       </Box>
     </Typography>

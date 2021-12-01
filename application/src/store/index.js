@@ -1,9 +1,15 @@
+import { createStore, combineReducers } from 'redux';
 import profileReducer from './profileReducer';
-import { createStore } from 'redux';
+import dialogNamesListReducer from './dialogNamesListReducer';
+import dialogMessagesListReducer from './dialogMessagesListReducer';
 
 const store = createStore(
-  profileReducer,
+  combineReducers({
+    profile: profileReducer,
+    chats: dialogNamesListReducer,
+    messages: dialogMessagesListReducer
+  }),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+)
 
 export default store;
