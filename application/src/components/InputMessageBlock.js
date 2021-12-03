@@ -3,7 +3,7 @@ import { TextField, Button, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { addMessage }  from "../store/actions";
+import { addMessage, addMessageWithThunk }  from "../store/actions";
 import store from "../store";
 
 const useStyles = makeStyles({
@@ -22,6 +22,15 @@ const useStyles = makeStyles({
   }
 });
 
+// const addMessageWithThunk = (chatsId, text, author) => (dispatch) => {
+//   console.log('Выполняется код 2');
+//   dispatch(addMessage(chatsId, text, author));
+//   if (author !== "Default") {
+//     console.log('Выполняется код 3');
+//      setTimeout((chatsId, text, author) => dispatch(addMessage({ chatsId, text, author })), 2000);
+//   }
+// }
+
 function InputMessageBlock() {
   const { nameUser } = useSelector((state) => state.profile);
   const { chatsId } = useParams();
@@ -32,12 +41,23 @@ function InputMessageBlock() {
   const inputRef = useRef(null);
 
   const handleChange = (e) => {
-    console.log(author, text);
-    if (nameUser !== "Default") {
-      store.dispatch(addMessage(chatsId, text, nameUser));
-    } else {
-      store.dispatch(addMessage(chatsId, text, author));
-    }
+    console.log('Выполняется код 1');
+    store.dispatch(addMessage(chatsId, text, author));
+    store.dispatch(addMessageWithThunk(chatsId, text, author));
+    // console.log(author, text);
+    // if (nameUser !== "Default") {
+    //   store.dispatch(addMessage(chatsId, text, nameUser));
+    // } else {
+    //   console.log("We here");
+    //   //store.dispatch(addMessage(chatsId, text, author))
+    //   setMessage("Вам пишет бот");
+    //   setAuthor("Bot");
+    //   setTimeout(() => {
+    //     console.log(chatsId, text, author);
+    //     store.dispatch(addMessage({ chatsId, text, author }));
+    //   }, 1500);
+      //store.dispatch(addMessage(chatsId, text, author));
+    //}
     setAuthor("");
     setMessage("");
     inputRef.current.focus();

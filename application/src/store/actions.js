@@ -29,3 +29,12 @@ export const addMessage = (chatsId, text, author) => ({
   text,
   author
 });
+
+export const addMessageWithThunk = (chatsId, text, author) => (dispatch) => {
+  console.log('Выполняется код 2');
+  //dispatch(addMessage(chatsId, text, author));
+  if (author !== "Default") {
+    console.log('Выполняется код 3');
+    setTimeout(() => dispatch(addMessage(chatsId, text, author)), 3000);
+  }
+}
