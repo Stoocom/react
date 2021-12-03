@@ -1,38 +1,34 @@
+import { createSlice } from '@reduxjs/toolkit';
 
 let initialState = {
   dialogs: [ 
     {
       id: "id1",
-      name: "nameChat1"
+      name: "nameChat11"
     },
     {
       id: "id2",
-      name: "nameChat2"
+      name: "nameChat22"
     },
   ]
 }
 
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case "DIALOGS:ADD_CHAT":
-      console.log('Добавление чата');
-      console.log(action);
-      return {
-        ...state,
-        dialogs: [
-          ...state.dialogs,
-          {
-            id: `id${state.dialogs.length+1}`,
-            name: action.name,
-          },
-        ],
-      };
-    case "DIALOGS:REMOVE_CHAT":
-      return {
-        ...state,
-        dialogs: state.dialogs.filter( item => item.id !== action.chatsId ),
-      };
-    default:
-      return state
-  }
-}
+export const dialogNamesListReducer = createSlice({
+  name: 'chatNames',
+  initialState,
+  reducers: {
+    addChat: (state, action) => {
+      state.dialogs.push({ 
+        id: `id${state.dialogs.length+1}`,
+        name: action.payload
+      })
+    },
+    removeChat: (state, action) => {
+      state.dialogs = state.dialogs.filter( item => item.id !== action.payload )
+    },
+  },
+})
+
+export const { addChat, removeChat } = dialogNamesListReducer.actions
+
+export default dialogNamesListReducer.reducer

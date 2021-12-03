@@ -6,9 +6,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, shallowEqual } from "react-redux";
 import DeleteIcon from '@material-ui/icons/Delete';
 import { IconButton } from "@material-ui/core";
-import { addChat, removeChat }  from "../store/actions";
 import store from "../store";
 import { getChatsName } from "../store/chatsSelectors";
+import { addChat, removeChat } from '../store/dialogNamesListReducer'
 
 const useStyles = makeStyles({
   chats: {

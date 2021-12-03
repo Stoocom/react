@@ -1,17 +1,16 @@
 import React, { useState, useCallback } from 'react';
 import { Container, Box, Typography, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
-//import { connect } from 'react-redux';
 import { useSelector, shallowEqual } from "react-redux";
-import { showNameAction, changeName }  from "../store/actions";
 import store from "../store";
 import { getProfile } from "../store/profileSelectors";
+import { showNameProfile, changeNameProfile } from '../store/profileReducer'
 
 function Profile() {
   const { isShowName, nameUser } = useSelector(getProfile, shallowEqual);
   const [value, setValue] = useState('');
 
   const handleChange = () => {
-    store.dispatch(showNameAction());
+    store.dispatch(showNameProfile());
   };
 
   const inputChangeValue = useCallback((e) => {
@@ -19,7 +18,7 @@ function Profile() {
   }, []);
 
   const setName = useCallback(() => {
-    store.dispatch(changeName(value));
+    store.dispatch(changeNameProfile(value));
   }, [value]);
 
   return (

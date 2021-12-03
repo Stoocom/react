@@ -1,15 +1,20 @@
-import { createStore, combineReducers } from 'redux';
 import profileReducer from './profileReducer';
 import dialogNamesListReducer from './dialogNamesListReducer';
 import dialogMessagesListReducer from './dialogMessagesListReducer';
+import { configureStore } from '@reduxjs/toolkit';
 
-const store = createStore(
-  combineReducers({
+// const middleware = getDefaultMiddleware({
+//   thunk: true,
+// });
+
+export const store = configureStore({
+  reducer: {
     profile: profileReducer,
     chats: dialogNamesListReducer,
     messages: dialogMessagesListReducer
-  }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+  },
+  //middleware,
+  devTools: process.env.NODE_ENV !== 'production',
+})
 
 export default store;

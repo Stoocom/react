@@ -1,5 +1,7 @@
+import { createSlice } from '@reduxjs/toolkit';
 
 let initialState = {
+  counter: 0,
   messages: { 
     "id1": [
       {
@@ -28,25 +30,30 @@ let initialState = {
   }
 }
 
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case "MESSAGES::ADD_MESSAGE":
-      const currentList = state.messages[action.chatsId] || [];
-      return {
-        ...state,
-        messages: {
-          ...state.messages,
-          [action.chatsId]: [
-            ...currentList,
-            {
-              id: `${action.chatsId}${currentList.length}`,
-              text: action.text,
-              author: action.author
-            }
-          ]
-        }
-      };
-    default:
-      return state
+export const dialogMessagesListReducer = createSlice({
+  name: 'dialogMessages',
+  initialState,
+  reducers: {
+    addMessage: (state, action) => {
+      if (state.messages[action.payload.chatsId]) {
+        state.messages[action.payload.chatsId].push({
+            id: `${action.payload.chatsId}${state.messages[action.payload.chatsId].length}`,
+            text: action.payload.text,
+            author: action.payload.author
+          })      
+      } else {
+        state.messages[action.payload.chatsId] = [
+          { 
+            id: `${action.payload.chatsId}${[].length}`,
+            text: action.payload.text,
+            author: action.payload.author
+          }
+        ]
+      }
+    }
   }
-}
+})
+
+export const { addMessage } = dialogMessagesListReducer.actions
+
+export default dialogMessagesListReducer.reducer

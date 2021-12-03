@@ -3,8 +3,8 @@ import { TextField, Button, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { addMessage }  from "../store/actions";
 import store from "../store";
+import { addMessage } from '../store/dialogMessagesListReducer'
 
 const useStyles = makeStyles({
   inputBlock: {
@@ -27,18 +27,19 @@ function InputMessageBlock() {
   const { chatsId } = useParams();
   const classes = useStyles();
 
-  const [author, setAuthor] = useState("");
+  const [author, setAuthor] = useState(nameUser ? nameUser : "Default");
   const [text, setMessage] = useState("");
   const inputRef = useRef(null);
 
   const handleChange = (e) => {
-    console.log(author, text);
-    if (nameUser !== "Default") {
-      store.dispatch(addMessage(chatsId, text, nameUser));
-    } else {
-      store.dispatch(addMessage(chatsId, text, author));
+    store.dispatch(addMessage({ chatsId, text, author }));
+    if (author === "Bot") {
+      setMessage("Вам пишет бот");
+      setTimeout(() => {
+        store.dispatch(addMessage({ chatsId, text, author }));
+      }, 1500);
     }
-    setAuthor("");
+    //store.dispatch(addMessage({ chatsId, text, author }));
     setMessage("");
     inputRef.current.focus();
     e.preventDefault();
