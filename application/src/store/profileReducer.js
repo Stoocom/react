@@ -13,11 +13,9 @@ export const profileSlice = createSlice({
       state.isShowName = !state.isShowName;
     },
     changeNameProfile: (state, action) => {
-      console.log(action);
       state.nameUser = action.payload;
     },
-    
-  },
+  }
 })
 
 export const { showNameProfile, changeNameProfile } = profileSlice.actions

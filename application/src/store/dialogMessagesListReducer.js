@@ -1,7 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+const async_func = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 2000)
+  });
+} 
+
+export const addMessageThunk = createAsyncThunk(
+  'messages/addMessageThunk',
+  async function ({chatsId, text, author}, { dispatch }) {
+    await async_func();
+    dispatch(addMessage({chatsId, text, author}));
+  }
+)
+
 
 let initialState = {
-  counter: 0,
+  isHowBotMessage: false,
   messages: { 
     "id1": [
       {
@@ -50,6 +67,14 @@ export const dialogMessagesListReducer = createSlice({
           }
         ]
       }
+    }
+  },
+  extraReducers: {
+    [addMessageThunk.pending]: (state) => {
+      state.isHowBotMessage = true;
+    },
+    [addMessageThunk.fulfilled]: (state) => {
+      state.isHowBotMessage = false;
     }
   }
 })

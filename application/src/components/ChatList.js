@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TextField, Button, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
@@ -8,7 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { IconButton } from "@material-ui/core";
 import store from "../store";
 import { getChatsName } from "../store/chatsSelectors";
-import { addChat, removeChat } from '../store/dialogNamesListReducer'
+import { addChat, removeChat } from '../store/dialogNamesListReducer';
+import InputField from'./InputField';
 
 const useStyles = makeStyles({
   chats: {
@@ -27,21 +28,16 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     width: '100%'
   },
-  formStyle: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    height: "42px"
-  }
 });
 
 function ChatList() {
+  const [author, setAuthor] = useState("No");
   const navigate = useNavigate();
   const { dialogs } = useSelector(getChatsName, shallowEqual);
   const classes = useStyles();
   const { chatsId } = useParams();
-  const [chatName, setChatName] = useState("");
+
+  const [text, setMessage] = useState("");
 
   const deleteChat = (e) => {
     store.dispatch(removeChat(e.target.parentElement.id));
@@ -51,7 +47,7 @@ function ChatList() {
   }
 
   const createChat = (e) => {
-    store.dispatch(addChat(chatName));
+    store.dispatch(addChat(text));
     e.preventDefault();
   }
 
@@ -86,11 +82,18 @@ function ChatList() {
         })
         }
         <Box className={classes.inputBlock}>
-          <form className={classes.formStyle} noValidate autoComplete="off" onSubmit={createChat}>
-            <TextField size="small" style={{ marginLeft: '20px', width: '120px' }} id="standard-basic" label="chat name" value={chatName} onChange={(e) => setChatName(e.target.value)}/>
-            <Button size="small" style={{width: '100px', marginRight: '10px'}} variant="contained" type="submit">New Chat</Button>
-          </form>
-      </Box>
+          <InputField
+            handleChange={createChat}
+            nameUser={"Default"}
+            author={author}
+            setAuthor={setAuthor}
+            inputRef={null}
+            text={text}
+            setMessage={setMessage}
+            nameInputText={"chatName"}
+            buttomName={"Send"}
+          />
+        </Box>
     </Box>  
   );
 }
