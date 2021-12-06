@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Message from'./Message';
-import InputMessageBlock from'./InputMessageBlock';
+import InputFieldContainer from'./InputFieldContainer';
 import { useSelector, shallowEqual } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDialogs } from "../store/chatsSelectors";
@@ -28,7 +28,13 @@ function MessagesList() {
         )
         : <div>Empty chat</div>
       }
-      <InputMessageBlock />
+      { dialogs.isHowBotMessage
+        ? <div style={{ color: 'rgb(213, 114, 118)' }}>
+            <span>Bot:</span>
+            <span style={{ marginLeft: '10px' }}>Ваш запрос принят! Пожалуйста, ждите ответа!</span>
+          </div>
+        : <div></div> }
+      <InputFieldContainer/>
     </Box>
   );
 }

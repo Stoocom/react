@@ -6,7 +6,7 @@ import MessagesList from'../components/MessagesList';
 
 export default function Chats() {
   const { chatsId } = useParams();
-
+  
   return (
     <Container style={{ margin: "0 auto", maxWidth: 800, padding: 0 }}>
     <Typography style={{ display: "flex", flexDirection: 'row', justifyContent: 'center', padding: 0, width: '100%' }} component="div">

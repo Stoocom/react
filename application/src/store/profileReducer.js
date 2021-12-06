@@ -1,22 +1,23 @@
+import { createSlice } from '@reduxjs/toolkit';
 
 let initialState = {
-    isShowName: true,
-    nameUser: "Alexander"
+  isShowName: true,
+  nameUser: "Alexander"
 }
 
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case 'PROFILE::TOGGLE_SHOW':
-      return {
-        ...state,
-        isShowName: !state.isShowName
-    }
-    case 'PROFILE::CHANGE_NAME': 
-      return {
-        ...state,
-        nameUser: action.payload
-      }
-    default:
-      return state
+export const profileSlice = createSlice({
+  name: 'profile',
+  initialState,
+  reducers: {
+    showNameProfile: (state) => {
+      state.isShowName = !state.isShowName;
+    },
+    changeNameProfile: (state, action) => {
+      state.nameUser = action.payload;
+    },
   }
-}
+})
+
+export const { showNameProfile, changeNameProfile } = profileSlice.actions
+
+export default profileSlice.reducer

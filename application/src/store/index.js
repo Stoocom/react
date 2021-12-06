@@ -1,15 +1,43 @@
-import { createStore, combineReducers } from 'redux';
 import profileReducer from './profileReducer';
 import dialogNamesListReducer from './dialogNamesListReducer';
 import dialogMessagesListReducer from './dialogMessagesListReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
+import {combineReducers} from "redux"; 
+import storage from 'redux-persist/lib/storage';
 
-const store = createStore(
-  combineReducers({
+const reducers = combineReducers({
     profile: profileReducer,
     chats: dialogNamesListReducer,
-    messages: dialogMessagesListReducer
-  }),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+    messages: dialogMessagesListReducer        
+ });
+
+
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+  devTools: process.env.NODE_ENV !== 'production',
+})
 
 export default store;
