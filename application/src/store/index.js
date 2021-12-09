@@ -1,4 +1,5 @@
 import profileReducer from './profileReducer';
+import gistsReducer from './gistsReducer';
 import dialogNamesListReducer from './dialogNamesListReducer';
 import dialogMessagesListReducer from './dialogMessagesListReducer';
 import { configureStore } from '@reduxjs/toolkit';
@@ -17,7 +18,8 @@ import storage from 'redux-persist/lib/storage';
 const reducers = combineReducers({
     profile: profileReducer,
     chats: dialogNamesListReducer,
-    messages: dialogMessagesListReducer        
+    messages: dialogMessagesListReducer,
+    gists: gistsReducer    
  });
 
 

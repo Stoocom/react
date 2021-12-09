@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import Chats from './pages/Chats';
+import Gists from './pages/Gists';
 import Profile from './pages/Profile';
 import Header from './components/Header';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
@@ -11,17 +12,17 @@ import { persistStore } from 'redux-persist'
 import store from './store'
 
 const Home = () => <div>Домашнаяя страница</div>;
-let persistor = persistStore(store);
+//let persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="chats" element={<Chats />} />
+            <Route path="gists" element={<Gists />} />
             <Route path="chats/:chatsId" element={<Chats />} />
             <Route path="profile" element={<Profile />} />
             <Route path="*" element={
@@ -30,7 +31,6 @@ ReactDOM.render(
               </main> } />
           </Routes>
         </BrowserRouter>
-      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
