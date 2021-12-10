@@ -16,6 +16,7 @@ function Header() {
           <Box sx={{ width: '40%'}} align="center">
           <Typography style={{ display: "flex", flexDirection: 'row', justifyContent: 'center', padding: 0, width: 'none' }} variant="h6" component="ul">
               <ListItem style={{ width: "100%", display: 'flex', justifyContent: 'center'}} button component={Link} to="/">Home</ListItem>
+              <ListItem style={{ width: "100%", display: 'flex', justifyContent: 'center'}} button component={Link} to="/gists">Gifts</ListItem>
               <ListItem style={{ width: "100%", display: 'flex', justifyContent: 'center'}} button component={Link} to="/chats">Chats</ListItem>
               <ListItem style={{ width: "100%", display: 'flex', justifyContent: 'center'}} button component={Link} to="/profile">Profile</ListItem>
           </Typography>

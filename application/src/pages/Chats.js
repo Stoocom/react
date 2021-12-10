@@ -4,6 +4,7 @@ import { Container, Box, Typography } from '@material-ui/core';
 import { useParams } from "react-router-dom";
 import MessagesList from'../components/MessagesList';
 
+
 export default function Chats() {
   const { chatsId } = useParams();
   
