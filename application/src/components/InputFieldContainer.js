@@ -24,12 +24,11 @@ function InputFieldContainer() {
   const { chatsId } = useParams();
   const classes = useStyles();
   const inputRef = useRef(null);
-
+  const idNew = new Date().getTime();
   const [text, setMessage] = useState("");
 
   const handleChange = (e) => {
-    
-    store.dispatch(addMessageThunk({chatsId, text, author}));
+    store.dispatch(addMessageThunk({chatsId, idNew, text, author}));
     setMessage("");
     e.preventDefault();
   }

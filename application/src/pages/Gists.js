@@ -7,14 +7,12 @@ import store from "../store";
 
 export default function Gists() {
   const { error, gists } = useSelector(getAllGists, shallowEqual);
-  console.log(gists);
 
   const requestGists = () => {
     store.dispatch(addAllGistsThunk());
   };
 
   useEffect(() => {
-    console.log('useEffect');
     requestGists();
   }, []);
 
@@ -36,14 +34,7 @@ export default function Gists() {
             <h3>{error}</h3>
             <button onClick={requestGists}>Retry</button>
           </>
-          : gists 
-            ? <ul>
-              { 
-                gists.forEach((gist) => <li key={gist.id}>{gist.description}</li>)
-              }
-            </ul>
-            : <div></div>
-          
+          : <div></div>       
         }
 
     </Container>

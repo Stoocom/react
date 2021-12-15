@@ -2,6 +2,7 @@ import profileReducer from './profileReducer';
 import gistsReducer from './gistsReducer';
 import dialogNamesListReducer from './dialogNamesListReducer';
 import dialogMessagesListReducer from './dialogMessagesListReducer';
+import userReducer from './userReducer';
 import { configureStore } from '@reduxjs/toolkit';
 import {
   persistReducer,
@@ -19,7 +20,8 @@ const reducers = combineReducers({
     profile: profileReducer,
     chats: dialogNamesListReducer,
     messages: dialogMessagesListReducer,
-    gists: gistsReducer    
+    gists: gistsReducer,
+    user: userReducer    
  });
 
 

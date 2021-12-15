@@ -8,7 +8,7 @@ import { showNameProfile, changeNameProfile } from '../store/profileReducer'
 function Profile() {
   const { isShowName, nameUser } = useSelector(getProfile, shallowEqual);
   const [value, setValue] = useState('');
-
+ 
   const handleChange = () => {
     store.dispatch(showNameProfile());
   };
