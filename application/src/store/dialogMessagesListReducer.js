@@ -1,56 +1,56 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
-const async_func = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 2000)
-  });
-} 
+import { ref, push, set, onChildChanged, onChildAdded } from "firebase/database";
+import { db } from '../firebase.js'
 
 export const addMessageThunk = createAsyncThunk(
   'messages/addMessageThunk',
-  async function ({chatsId, text, author}, { dispatch }) {
-    await async_func();
-    dispatch(addMessage({chatsId, text, author}));
+  async function ({chatsId, idNew, text, author}) {
+    const postListRef = ref(db, "messages/" + chatsId);
+    const newPostRef = push(postListRef);
+    set(newPostRef, {
+        id: idNew,
+        author: author,
+        text: text
+    });
   }
 )
 
+const getPayloadFromSnapshot = (snapshot) => {
+  const messages = [];
+  snapshot.forEach((mes) => {
+    messages.push(mes.val());
+  });
+  return { chatsId: snapshot.key, messages }
+}
+
+export const initMessageTrackingThunk = createAsyncThunk(
+  'messages/initMessageTrackingThunk',
+  async function (_, { dispatch }) {
+    const messagesRef = ref(db, 'messages/');
+    onChildAdded(messagesRef, (snapshot) => {
+      const payload = getPayloadFromSnapshot(snapshot);
+      dispatch(changeMessages(payload));
+    });
+    onChildChanged(messagesRef, (snapshot) => {
+      const payload = getPayloadFromSnapshot(snapshot);
+      console.log(payload);
+      dispatch(changeMessages(payload));
+    });
+  }
+)
 
 let initialState = {
   isHowBotMessage: false,
-  messages: { 
-    "id1": [
-      {
-        id: "aaa3332",
-        text: "chat1text",
-        author: "Bob"
-      },
-      {
-        id: "aaa33323",
-        text: "chat1text",
-        author: "Maria"
-      },
-    ],
-    "id2": [
-      {
-        id: "ddd4332",
-        text: "chat2text",
-        author: "Bob"
-      },
-      {
-        id: "ddd33323",
-        text: "chat2text",
-        author: "Maria"
-      },
-    ]
-  }
+  messages: {}
 }
 
 export const dialogMessagesListReducer = createSlice({
   name: 'dialogMessages',
   initialState,
   reducers: {
+    changeMessages: (state, action) => {
+      state.messages[action.payload.chatsId] = action.payload.messages
+    },
     addMessage: (state, action) => {
       if (state.messages[action.payload.chatsId]) {
         state.messages[action.payload.chatsId].push({
@@ -79,6 +79,6 @@ export const dialogMessagesListReducer = createSlice({
   }
 })
 
-export const { addMessage } = dialogMessagesListReducer.actions
+export const { addMessage, changeMessages } = dialogMessagesListReducer.actions
 
 export default dialogMessagesListReducer.reducer
