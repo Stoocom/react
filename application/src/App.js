@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './App.scss';
+//import './App.scss';
 import { TextField, Button, Box } from '@material-ui/core';
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import Message from'./components/Message';
@@ -73,7 +73,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(inputRef.current);
     inputRef.current.focus();
   }, []);
 
