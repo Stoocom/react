@@ -26,9 +26,7 @@ function Router() {
             </PrivateRoute>
           } />
         <Route exact path="gists" element={
-          <PublicRoute>
               <Gists />
-          </PublicRoute>
           } />
         <Route exact path="chats/:chatsId" element={       
             <PrivateRoute>
